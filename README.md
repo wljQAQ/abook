@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-10-21 16:20:03
  * @LastEditors: wlj
- * @LastEditTime: 2022-10-21 16:37:38
+ * @LastEditTime: 2022-10-21 16:42:35
  * @Description:
 -->
 
@@ -30,23 +30,23 @@ App.tsx：项目主组件
 
 main.tsx：项目入口文件
 
-5 .env：对应模式的环境变量（开发 生产）
+4 .env：对应模式的环境变量（开发 生产）
 
-6 .eslintrc：ellint 配置
+5 .eslintrc：ellint 配置
 
-7 .gitignore：使用 git 推送到远程存储库时忽略的所有文件和文件夹的名称
+6 .gitignore：使用 git 推送到远程存储库时忽略的所有文件和文件夹的名称
 
-9 .prettierrc：代码格式化配置
+7 .prettierrc：代码格式化配置
 
-10 commitlint.config.js：检测 git commit 提交规范
+8 commitlint.config.js：检测 git commit 提交规范
 
-11 vite.config:对 vite 的一些配置
+9 vite.config:对 vite 的一些配置
 
-12 package.json：当前项目的配置及依赖项
+10 package.json：当前项目的配置及依赖项
 
-13 README.md：项目文档
+11 README.md：项目文档
 
-14 pnpm.lock：项目依赖的具体版本
+12 pnpm.lock：项目依赖的具体版本
 
 ## git 提交规范
 
