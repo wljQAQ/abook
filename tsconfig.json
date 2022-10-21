@@ -14,7 +14,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"] //格式一定要写对符号*不能少不然找不到@或者没有代码提示
+    }
   },
-  "include": ["src"],
+  "include": ["src"]
 }
