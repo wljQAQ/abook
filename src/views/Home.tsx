@@ -2,42 +2,21 @@
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
  * @LastEditors: wlj
- * @LastEditTime: 2022-10-21 16:02:51
+ * @LastEditTime: 2022-10-27 10:23:04
  * @Description: 主页面
  */
 
-import { memo, useState } from 'react';
-import { useImmer } from 'use-immer';
+import { querySongs } from '@/http/api/service';
+import { memo } from 'react';
 
 const Home = memo(() => {
-  const [test, setTest] = useState({
-    a: '123',
-    b: {
-      c: '456'
-    }
-  });
-
-  const [test2, setTest2] = useImmer({
-    a: '123',
-    b: {
-      c: '456'
-    }
-  });
+  async function _querySongs() {
+    const { code, result } = await querySongs({ keywords: 'test' });
+    console.log(code, result);
+  }
   return (
     <>
-      <div>Home</div>
-      <div>{JSON.stringify(test)}</div>
-      <div>{JSON.stringify(test2)}</div>
-      <button onClick={() => setTest({ ...test, a: '456' })}>click</button>
-      <button
-        onClick={() =>
-          setTest2(draft => {
-            draft.a = '456';
-          })
-        }
-      >
-        Immerclick
-      </button>
+      <button onClick={() => _querySongs()}>搜索歌曲</button>
     </>
   );
 });
