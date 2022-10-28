@@ -1,9 +1,8 @@
-import { request } from '@/http/api/service';
 /*
  * @Author: wlj
  * @Date: 2022-10-26 10:18:14
  * @LastEditors: wlj
- * @LastEditTime: 2022-10-27 10:18:15
+ * @LastEditTime: 2022-10-28 09:41:08
  * @Description:封装axios
  */
 import axios from 'axios';

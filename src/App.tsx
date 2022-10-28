@@ -9,6 +9,7 @@ import { memo, Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 import routes from '@/router/index';
 
+
 const App = memo(() => {
   return (
     <div className="app">
