@@ -1,21 +1,23 @@
 /*
  * @Author: wulongjiang
  * @Date: 2022-10-30 12:47:25
- * @LastEditors: wulongjiang
- * @LastEditTime: 2022-10-30 19:10:47
+ * @LastEditors: wlj
+ * @LastEditTime: 2022-10-31 11:17:31
  * @Description: 富文本编辑器
  * @FilePath: \blog\src\components\RichText.tsx
  */
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
+import { useImmer } from 'use-immer';
 
-console.log(ReactQuill);
 const RichText = memo(() => {
+  const [value, setValue] = useState('');
+
   return (
     <>
-      <ReactQuill theme="snow"></ReactQuill>
+      <ReactQuill theme="snow" placeholder="111111" value={value} onChange={setValue}></ReactQuill>
     </>
   );
 });

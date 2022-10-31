@@ -1,26 +1,34 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
- * @LastEditors: wulongjiang
- * @LastEditTime: 2022-10-30 19:13:16
+ * @LastEditors: wlj
+ * @LastEditTime: 2022-10-31 16:43:12
  * @Description: 主页面
  */
 
-import { querySongs } from '@/http/api/service';
 import { memo } from 'react';
-import { Button } from 'antd';
-import RichText from '@/components/RichText';
+import { Menu } from 'antd';
+
+import User from './components/user';
+import { ReadOutlined } from '@ant-design/icons';
 
 const Home = memo(() => {
-  async function _querySongs() {
-    const { code, result } = await querySongs({ keywords: 'test' });
-    console.log(code, result);
-  }
+  const items = [
+    {
+      label: '个人知识库',
+      icon: <ReadOutlined />,
+      key: 'submenu',
+      children: [{ label: '子菜单项', key: 'submenu-item-1' }]
+    }
+  ];
+
   return (
-    <>
-      <Button onClick={() => _querySongs()}>搜索歌曲</Button>
-      <RichText></RichText>
-    </>
+    <div className="flex w-full h-full">
+      <div className="w-52 h-full bg-gray-50">
+        <User></User>
+        <Menu className="!bg-gray-50" items={items} mode="inline" />
+      </div>
+    </div>
   );
 });
 
