@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-11-01 11:22:12
  * @LastEditors: wlj
- * @LastEditTime: 2022-11-01 16:41:48
+ * @LastEditTime: 2022-11-02 17:14:01
  * @Description: books组件的switch按钮
  */
 import { memo, ReactNode, useState, useRef, useEffect } from 'react';
@@ -12,7 +12,7 @@ import { CSSTransition } from 'react-transition-group';
 interface Properties {
   checkedChildren: string | ReactNode;
   unCheckedChildreb: string | ReactNode;
-  onChange?: (value?: Boolean) => void;
+  onChange?: (value?: boolean) => void;
 }
 
 const Switch = memo(({ checkedChildren, unCheckedChildreb, onChange }: Properties) => {
@@ -24,7 +24,6 @@ const Switch = memo(({ checkedChildren, unCheckedChildreb, onChange }: Propertie
     setValue(!value);
   }
   useEffect(() => {
-    console.log(111);
     if (onChange) onChange(value);
   }, [value]);
   return (

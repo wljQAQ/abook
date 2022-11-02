@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
  * @LastEditors: wlj
- * @LastEditTime: 2022-11-01 11:10:59
+ * @LastEditTime: 2022-11-02 17:06:02
  * @Description: 主页面
  */
 
@@ -30,7 +30,7 @@ const Home = memo(() => {
         <User></User>
         <Menu className="!bg-gray-50" items={items} mode="inline" />
       </div>
-      <div className="px-4 pt-4">
+      <div className="px-4 pt-4 flex-1">
         <Books></Books>
       </div>
     </div>
