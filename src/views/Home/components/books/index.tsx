@@ -2,19 +2,25 @@
  * @Author: wlj
  * @Date: 2022-11-01 11:01:34
  * @LastEditors: wlj
- * @LastEditTime: 2022-11-02 17:41:43
+ * @LastEditTime: 2022-11-03 11:27:00
  * @Description:
  */
 import NewBooksModal from '@/components/NewBooksModal';
 import { MenuOutlined, AppstoreFilled } from '@ant-design/icons';
-import { memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import Switch from './Switch';
 
 const Books = memo(() => {
   const [isShowBooksModal, setIsShowBooksModal] = useState(false);
 
+  const { checked, unChecked } = useMemo(() => {
+    return {
+      checked: <AppstoreFilled />,
+      unChecked: <MenuOutlined />
+    };
+  }, []);
+
   function handleBooksModal() {
-    console.log(isShowBooksModal);
     setIsShowBooksModal(!isShowBooksModal);
   }
 
@@ -22,7 +28,7 @@ const Books = memo(() => {
     <>
       <div className="flex items-center">
         <div className=" text-lg font-bold pr-2">知识库</div>
-        <Switch checkedChildren={<AppstoreFilled />} unCheckedChildreb={<MenuOutlined />}></Switch>
+        <Switch checkedChildren={checked} unCheckedChildreb={unChecked}></Switch>
       </div>
 
       <div className="flex items-center w-full mt-4">
@@ -42,7 +48,11 @@ const Books = memo(() => {
           </div>
         </div>
 
-        <NewBooksModal show={isShowBooksModal} />
+        <NewBooksModal
+          show={isShowBooksModal}
+          onOk={handleBooksModal}
+          onCancel={() => setIsShowBooksModal(!isShowBooksModal)}
+        />
       </div>
     </>
   );
