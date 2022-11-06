@@ -1,14 +1,14 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-21 09:20:10
- * @LastEditors: wlj
- * @LastEditTime: 2022-10-21 11:40:53
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2022-11-04 20:46:24
  * @Description:
  */
 import { lazy } from 'react';
 
 const Home = lazy(() => import('@/views/Home'));
-const Test = lazy(() => import('@/views/Test'));
+const BookSpace = lazy(() => import('@/views/BookSpace'));
 
 const routes = [
   {
@@ -16,8 +16,8 @@ const routes = [
     element: <Home />
   },
   {
-    path: '/test',
-    element: <Test />
+    path: '/bookSpack',
+    element: <BookSpace />
   }
 ];
 
