@@ -2,11 +2,11 @@
  * @Author: wlj
  * @Date: 2022-10-31 15:07:12
  * @LastEditors: wulongjiang
- * @LastEditTime: 2022-11-12 15:25:50
+ * @LastEditTime: 2022-11-13 11:34:52
  * @Description:
  */
 import { Avatar } from 'antd';
-import { memo, useRef, MutableRefObject } from 'react';
+import { memo, useRef } from 'react';
 import { UserOutlined } from '@ant-design/icons';
 import Surprise from '../surprise';
 

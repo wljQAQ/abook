@@ -2,7 +2,7 @@
  * @Author: wulongjiang
  * @Date: 2022-11-12 13:18:07
  * @LastEditors: wulongjiang
- * @LastEditTime: 2022-11-12 18:47:10
+ * @LastEditTime: 2022-11-13 11:44:49
  * @Description:中分彩蛋
  * @FilePath: \blog\src\views\Home\children\surprise\index.tsx
  */
@@ -15,15 +15,22 @@ interface Properties {
 }
 
 const Surprise = memo(({ el }: Properties) => {
-  const [test, setTest] = useState(false);
+  const [surprizeVisible, setSurprizeVisible] = useState(false);
   const imgRef = useRef(null);
   const [top, setTop] = useState(0);
   const [left, setLeft] = useState(0);
-  const [overlayVisible, setOverlayVisible] = useState(true);
+  const [overlayVisible, setOverlayVisible] = useState(false);
 
   function onExited() {
-    console.log(111);
     setOverlayVisible(false);
+  }
+
+  function handleKey(e: KeyboardEvent) {
+    if (surprizeVisible === true) return;
+    if (e.key === 'Control') {
+      setSurprizeVisible(true);
+      setOverlayVisible(true);
+    }
   }
 
   useEffect(() => {
@@ -32,7 +39,7 @@ const Surprise = memo(({ el }: Properties) => {
       const left = el.current.getBoundingClientRect().left;
       setTop(top);
       setLeft(left);
-      setTest(true);
+      window.addEventListener('keyup', handleKey);
     }
   }, [el]);
 
@@ -45,7 +52,7 @@ const Surprise = memo(({ el }: Properties) => {
       <CSSTransition
         nodeRef={imgRef}
         timeout={3000}
-        in={test}
+        in={surprizeVisible}
         onEntered={onExited}
         classNames={{
           enter: 'surprise-checked-enter',
@@ -54,10 +61,10 @@ const Surprise = memo(({ el }: Properties) => {
       >
         <div
           ref={imgRef}
-          className={'absolute'}
+          className="absolute"
           style={{ top: `${top - 5}px`, left: `${left + 7}px` }}
         >
-          <img className="w-6 object-contain" src={cxk} />
+          {surprizeVisible && <img className="w-6 object-contain" src={cxk} />}
         </div>
       </CSSTransition>
     </div>
