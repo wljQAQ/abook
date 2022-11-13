@@ -2,7 +2,7 @@
  * @Author: wulongjiang
  * @Date: 2022-11-12 13:18:07
  * @LastEditors: wulongjiang
- * @LastEditTime: 2022-11-13 11:44:49
+ * @LastEditTime: 2022-11-13 12:32:57
  * @Description:中分彩蛋
  * @FilePath: \blog\src\views\Home\children\surprise\index.tsx
  */
@@ -45,8 +45,8 @@ const Surprise = memo(({ el }: Properties) => {
 
   return (
     <div
-      className={classNames('fixed top-0 left-0 w-screen h-screen  opacity-80', {
-        'bg-black': overlayVisible
+      className={classNames({
+        'fixed top-0 left-0 w-screen h-screen  opacity-80 bg-black': overlayVisible
       })}
     >
       <CSSTransition
