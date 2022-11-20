@@ -2,7 +2,7 @@
  * @Author: wulongjiang
  * @Date: 2022-11-20 21:20:03
  * @LastEditors: wulongjiang
- * @LastEditTime: 2022-11-20 22:02:24
+ * @LastEditTime: 2022-11-20 22:21:01
  * @Description:
  * @FilePath: \blog\src\components\RichText\children\ToolBarBtn.tsx
  */
@@ -29,5 +29,7 @@ const ToolBarBtn = memo(({ icon, children, className }: Properties) => {
     </Tooltip>
   );
 });
+
+ToolBarBtn.displayName = 'ToolBarBtn';
 
 export default ToolBarBtn;
