@@ -1,22 +1,27 @@
 /*
  * @Author: wlj
  * @Date: 2022-11-17 16:42:44
- * @LastEditors: wlj
- * @LastEditTime: 2022-11-17 16:53:07
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2022-11-20 21:51:50
  * @Description:
  */
 import { memo } from 'react';
+import { Tooltip, Button } from 'antd';
+import { CaretDownOutlined } from '@ant-design/icons';
+import ToolBarBtn from './ToolBarBtn';
 
 const ToolBar = memo(() => {
   return (
     <div id="toolbar">
-      <select className="ql-header" defaultValue={''} onChange={e => e.persist()}>
-        <option value="1"></option>
-        <option value="2"></option>
-        <option value="3"></option>
-      </select>
-      <button className="ql-bold"></button>
-      <button className="ql-italic"></button>
+      <Tooltip placement="bottom" title="正文与标题" arrowPointAtCenter>
+        <ToolBarBtn className="ql-header" icon={<CaretDownOutlined />}>
+          正文
+        </ToolBarBtn>
+      </Tooltip>
+      <Tooltip placement="bottom" title="Prompt Text" arrowPointAtCenter>
+        <Button className="ql-bold"></Button>
+      </Tooltip>
+      <Button className="ql-italic"></Button>
       <select className="ql-color" defaultValue={''}>
         <option value="red"></option>
         <option value="green"></option>

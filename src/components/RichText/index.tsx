@@ -1,10 +1,10 @@
 /*
  * @Author: wulongjiang
  * @Date: 2022-10-30 12:47:25
- * @LastEditors: wlj
- * @LastEditTime: 2022-11-17 16:55:22
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2022-11-20 20:57:15
  * @Description: 富文本编辑器
- * @FilePath: \blog\src\components\RichText.tsx
+ * @FilePath: \blog\src\components\RichText\index.tsx
  */
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
