@@ -2,39 +2,86 @@
  * @Author: wlj
  * @Date: 2022-11-17 16:42:44
  * @LastEditors: wlj
- * @LastEditTime: 2022-11-21 17:43:23
+ * @LastEditTime: 2022-11-22 17:36:56
  * @Description:
  */
-import { memo } from 'react';
+import { memo, RefObject, useEffect } from 'react';
+import ReactQuill, { Quill } from 'react-quill';
 import { Button, Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
 import { CaretDownOutlined } from '@ant-design/icons';
 import ToolBarBtn from './ToolBarBtn';
+import { useImmer } from 'use-immer';
+
+interface Properties {
+  quillRef: RefObject<ReactQuill>;
+}
+
+interface ToolBarProps {
+  header: {
+    value: string;
+    label: string;
+  };
+}
 
 const headerMeau: MenuProps['items'] = [
   {
+    key: '',
+    label: <p>正文</p>
+  },
+  {
     key: '1',
-    label: '正文'
+    label: <h1>标题1</h1>
   },
   {
     key: '2',
-    label: '标题1'
+    label: <h1>标题2</h1>
   },
   {
     key: '3',
-    label: '标题2'
+    label: <h1>标题3</h1>
   }
 ];
-// const A = function () {
-//   return <Button>111</Button>;
-// };
-const ToolBar = memo(() => {
+
+let quill: InstanceType<typeof Quill>; //quill实例对象
+
+const ToolBar = memo(({ quillRef }: Properties) => {
+  const [toolBar, setToolBar] = useImmer<ToolBarProps>({
+    header: {
+      value: '',
+      label: '正文'
+    }
+  });
+
+  const dropSelect: MenuProps['onClick'] = function (value) {
+    console.log(value);
+    setToolBar(draft => {
+      draft.header.value = value.key;
+      // draft.header.label = headerMeau.find(item => item?.key === value.key)!.label;
+    });
+    console.log(quill);
+    quill.format('header', value.key);
+  };
+  useEffect(() => {
+    if (quillRef?.current && typeof quillRef?.current?.getEditor === 'function') {
+      quill = quillRef?.current?.getEditor();
+    }
+  });
   return (
     <div id="toolbar" style={{ display: 'flex', alignItems: 'center' }}>
-      <Dropdown menu={{ items: headerMeau }} placement="bottomLeft" trigger={['click']}>
-        <ToolBarBtn icon={<CaretDownOutlined />}>正文</ToolBarBtn>
+      {/* 设置标题字体 */}
+      <Dropdown
+        menu={{ items: headerMeau, onClick: dropSelect }}
+        placement="bottomLeft"
+        trigger={['click']}
+      >
+        <Button className=" !w-14 hover:!bg-gray-100 !text-black" value={toolBar.header.value}>
+          <span>{toolBar.header.label}</span>
+          <CaretDownOutlined className="text-gray-500 text-xs"></CaretDownOutlined>
+        </Button>
       </Dropdown>
-      <ToolBarBtn className="ql-bold !w-7 !h-6"></ToolBarBtn>
+      {/* 加粗 */}
+      <ToolBarBtn className="ql-bold" tip="加粗"></ToolBarBtn>
       <Button className="ql-italic"></Button>
       <select className="ql-color" defaultValue={''}>
         <option value="red"></option>
