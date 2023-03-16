@@ -2,10 +2,18 @@
  * @Author: wlj
  * @Date: 2022-11-17 16:42:44
  * @LastEditors: wlj
- * @LastEditTime: 2022-11-23 17:22:05
+ * @LastEditTime: 2023-03-16 08:38:00
  * @Description:
  */
-import { memo, RefObject, useEffect } from 'react';
+import {
+  memo,
+  RefObject,
+  useCallback,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+  Ref
+} from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import { Button, Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
@@ -13,8 +21,16 @@ import { CaretDownOutlined } from '@ant-design/icons';
 import ToolBarBtn from './ToolBarBtn';
 import { useImmer } from 'use-immer';
 
+interface StringMap {
+  [key: string]: any;
+}
+
 interface Properties {
   quillRef: RefObject<ReactQuill>;
+}
+
+interface ToolBarRef {
+  handleRangeChange: (key: StringMap) => void;
 }
 
 interface ToolBarProps {
@@ -43,16 +59,9 @@ const headerMeau: MenuProps['items'] = [
   }
 ];
 
-// let Inline = Quill.import('blots/inline');
-// class BoldBlot extends Inline {}
-// BoldBlot.blotName = 'bold';
-// BoldBlot.tagName = 'strong';
-
-// Quill.register(BoldBlot);
-
 let quill: InstanceType<typeof Quill>; //quill实例对象
 
-const ToolBar = memo(({ quillRef }: Properties) => {
+let ToolBar = forwardRef<ToolBarRef, Properties>(({ quillRef }, ref) => {
   const [toolBar, setToolBar] = useImmer<ToolBarProps>({
     header: {
       value: '',
@@ -60,40 +69,87 @@ const ToolBar = memo(({ quillRef }: Properties) => {
     }
   });
 
-  const dropSelect: MenuProps['onClick'] = function (value) {
-    console.log(value);
-    setToolBar(draft => {
-      draft.header.value = value.key;
-      // draft.header.label = headerMeau.find(item => item?.key === value.key)!.label;
-    });
-    console.log(quill);
-    quill.format('header', value.key);
-  };
+  const dropSelect = useCallback<NonNullable<MenuProps['onClick']>>(
+    value => {
+      setToolBar(draft => {
+        draft.header.value = value.key;
+        draft.header.label = value.key === '' ? '正文' : `标题  ${value.key}`;
+      });
+      console.log(1);
+      quill.format('header', value.key);
+    },
+    [toolBar.header]
+  );
 
   const test = function () {
     quill.format('bold', true);
   };
+
+  const handleRangeChange = useCallback<ToolBarRef['handleRangeChange']>(
+    rangeObj => {
+      console.log('handleRangeChange');
+      if (JSON.stringify(rangeObj) === '{}') {
+        setToolBar(draft => {
+          draft.header.label = '正文';
+        });
+        return;
+      }
+      //遍历
+      for (const key in rangeObj) {
+        if (Object.prototype.hasOwnProperty.call(rangeObj, key)) {
+          switch (key) {
+            case 'header':
+              console.log(toolBar);
+              setToolBar(draft => {
+                draft.header.label =
+                  toolBar.header.value === '' ? '正文' : `标题  ${toolBar.header.value}`;
+              });
+              break;
+
+            default:
+              break;
+          }
+        }
+      } //end for
+    },
+    [toolBar]
+  );
+
   useEffect(() => {
     if (quillRef?.current && typeof quillRef?.current?.getEditor === 'function') {
       quill = quillRef?.current?.getEditor();
+      quill.on('selection-change', function () {
+        const rangeFormat = quill.getFormat();
+        // for (const key in rangeFormat) {
+        //   if (Object.prototype.hasOwnProperty.call(rangeFormat, key)) {
+        //     handleRangeChange(key);
+        //   }
+        // }
+        console.log(rangeFormat, 'selection-change');
+      });
     }
-  });
+  }, [quillRef]);
+
+  useImperativeHandle(ref, () => ({
+    handleRangeChange
+  }));
+
   return (
-    <div id="toolbar" style={{ display: 'flex', alignItems: 'center' }}>
+    <div id="toolbar" className="w-full" style={{ display: 'flex', alignItems: 'center' }}>
       {/* 设置标题字体 */}
-      {/* <Dropdown
+      <Dropdown
         menu={{ items: headerMeau, onClick: dropSelect }}
         placement="bottomLeft"
         trigger={['click']}
       >
         <Button
-          className=" !w-14 shadow-none hover:!bg-gray-100 !text-black"
+          className=" !w-18 shadow-none hover:!bg-gray-100 !text-black"
           value={toolBar.header.value}
         >
           <span>{toolBar.header.label}</span>
           <CaretDownOutlined className="text-gray-500 text-xs"></CaretDownOutlined>
         </Button>
-      </Dropdown> */}
+      </Dropdown>
       {/* <select className="ql-header" defaultValue={''}>
         <option value="1" />
         <option value="2" />
@@ -104,9 +160,9 @@ const ToolBar = memo(({ quillRef }: Properties) => {
       </select> */}
       {/* 加粗 */}
       {/* <ToolBarBtn className="ql-bold" tip="加粗"></ToolBarBtn> */}
-      <Button className="ql-italic" onClick={test}>
+      {/* <Button className="ql-italic" onClick={test}>
         B
-      </Button>
+      </Button> */}
       {/* <select className="ql-color" defaultValue={''}>
         <option value="red"></option>
         <option value="green"></option>
@@ -120,5 +176,6 @@ const ToolBar = memo(({ quillRef }: Properties) => {
 });
 
 ToolBar.displayName = 'ToolBar';
+ToolBar = memo(ToolBar);
 
 export default ToolBar;

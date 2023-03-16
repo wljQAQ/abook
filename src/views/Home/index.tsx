@@ -1,38 +1,46 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
- * @LastEditors: wulongjiang
- * @LastEditTime: 2022-11-13 11:45:36
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-03-16 08:36:11
  * @Description: 主页面
  */
 
 import { memo } from 'react';
-import { Menu } from 'antd';
+import { Menu, Layout, MenuProps } from 'antd';
 
 import User from './children/user';
 import Books from './children/books';
 import { ReadOutlined } from '@ant-design/icons';
+const { Content, Sider } = Layout;
+
+type MenuItem = Required<MenuProps>['items'];
 
 const Home = memo(() => {
-  const menus = [
+  const menus: MenuItem = [
     {
       label: '个人知识库',
       icon: <ReadOutlined />,
       key: 'submenu',
-      children: []
+      children: [
+        {
+          label: 'Vue',
+          key: 'vue'
+        }
+      ]
     }
   ]; //菜单列表
 
   return (
-    <div className="flex w-full h-full">
-      <div className="w-52 h-full bg-gray-50">
+    <Layout className="w-full h-full">
+      <Sider className="h-full border-r border-gray-200" theme="light">
         <User></User>
-        <Menu className="!bg-gray-50" items={menus} mode="inline" />
-      </div>
-      <div className="px-4 pt-4 flex-1">
+        <Menu items={menus} mode="inline" />
+      </Sider>
+      <Content className="px-4 pt-4 bg-white">
         <Books></Books>
-      </div>
-    </div>
+      </Content>
+    </Layout>
   );
 });
 
