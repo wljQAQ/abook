@@ -1,8 +1,8 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-31 15:37:23
- * @LastEditors: wlj
- * @LastEditTime: 2023-03-16 08:26:39
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-03-16 21:24:34
  * @Description:
  */
 /** @type {import('tailwindcss').Config} */
@@ -17,6 +17,6 @@ module.exports = {
   },
   plugins: [],
   corePlugins: {
-    preflight: true // <== disable this!
+    preflight: false // <== disable this!
   }
 };

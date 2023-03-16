@@ -2,12 +2,12 @@
  * @Author: wulongjiang
  * @Date: 2022-11-13 16:53:21
  * @LastEditors: wulongjiang
- * @LastEditTime: 2022-11-15 22:46:14
+ * @LastEditTime: 2023-03-16 21:08:17
  * @Description:
- * @FilePath: \blog\src\views\BookSpace\children\BookContent\index.tsx
+ * @FilePath: \abook\src\views\BookSpace\components\BookContent\index.tsx
  */
 import { memo } from 'react';
-import RichText from '@/components/RichText';
+import RichText from './components/RichText';
 
 const BookContent = memo(() => {
   return (
