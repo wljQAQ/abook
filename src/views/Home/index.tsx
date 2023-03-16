@@ -1,16 +1,16 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
- * @LastEditors: wlj
- * @LastEditTime: 2023-03-16 08:36:11
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-03-16 20:48:48
  * @Description: 主页面
  */
 
 import { memo } from 'react';
 import { Menu, Layout, MenuProps } from 'antd';
 
-import User from './children/user';
-import Books from './children/books';
+import User from './components/user';
+import Books from './components/books';
 import { ReadOutlined } from '@ant-design/icons';
 const { Content, Sider } = Layout;
 

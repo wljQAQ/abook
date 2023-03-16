@@ -1,14 +1,14 @@
 /*
  * @Author: wulongjiang
  * @Date: 2022-11-04 20:42:04
- * @LastEditors: wlj
- * @LastEditTime: 2022-11-22 09:09:53
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-03-16 20:48:55
  * @Description:新建一个知识库页面
- * @FilePath: \blog\src\views\BookSpace\index.tsx
+ * @FilePath: \abook\src\views\BookSpace\index.tsx
  */
 import { memo } from 'react';
-import BookContent from './children/BookContent';
-import BookDetail from './children/BookDetail';
+import BookContent from './components/BookContent';
+import BookDetail from './components/BookDetail';
 
 const BookSpace = memo(() => {
   return (
