@@ -1,8 +1,8 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-03-16 20:48:48
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-03-17 16:57:18
  * @Description: 主页面
  */
 
@@ -16,7 +16,7 @@ const { Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'];
 
-const Home = memo(() => {
+const Home = () => {
   const menus: MenuItem = [
     {
       label: '个人知识库',
@@ -42,7 +42,7 @@ const Home = memo(() => {
       </Content>
     </Layout>
   );
-});
+};
 
 Home.displayName = 'Home';
 
