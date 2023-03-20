@@ -9,12 +9,10 @@ export default function Editor() {
   return (
     <Layout className="h-full w-full">
       <Header className="!bg-white" style={{ borderBottom: '1px solid hsla(0, 0%, 0%, 0.04)' }}>
-        <div>hello</div>
+        <h1>无标题文档</h1>
       </Header>
       <Content className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <RichText />
-        </div>
+        <RichText />
       </Content>
     </Layout>
   );

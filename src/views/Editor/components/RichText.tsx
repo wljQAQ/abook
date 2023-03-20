@@ -1,8 +1,8 @@
 /*
  * @Author: wulongjiang
  * @Date: 2023-03-16 20:55:24
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-03-16 22:12:17
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-03-20 08:55:16
  * @Description:
  * @FilePath: \abook\src\views\BookSpace\components\BookContent\components\RichText.tsx
  */
@@ -48,23 +48,24 @@ const RichText = memo(() => {
 
   return (
     <>
-      <div style={{ border: '1px solid #ccc', zIndex: 100 }}>
+      <div className="h-full flex flex-col">
         <Toolbar
+          className="w-full flex items-center justify-center"
           editor={editor}
           defaultConfig={toolbarConfig}
           mode="default"
-          style={{ borderBottom: '1px solid #ccc' }}
         />
+
         <Editor
+          className="flex-1 overflow-y-hidden"
           defaultConfig={editorConfig}
           value={html}
           onCreated={setEditor}
           onChange={editor => setHtml(editor.getHtml())}
           mode="default"
-          style={{ height: '500px', overflowY: 'hidden' }}
         />
       </div>
-      <div style={{ marginTop: '15px' }}>{html}</div>
+      {/* <div style={{ marginTop: '15px' }}>{html}</div> */}
     </>
   );
 });
