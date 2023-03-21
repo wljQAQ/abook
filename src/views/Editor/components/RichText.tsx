@@ -2,11 +2,12 @@
  * @Author: wulongjiang
  * @Date: 2023-03-16 20:55:24
  * @LastEditors: wlj
- * @LastEditTime: 2023-03-20 08:55:16
+ * @LastEditTime: 2023-03-21 08:38:19
  * @Description:
  * @FilePath: \abook\src\views\BookSpace\components\BookContent\components\RichText.tsx
  */
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
+import '@/assets/style/editor.css'; //引入重置样式
 
 import React, { memo, useState, useEffect } from 'react';
 import markdownModule from '@wangeditor/plugin-md';
@@ -35,14 +36,17 @@ const RichText = memo(() => {
   };
 
   // 工具栏配置
-  const toolbarConfig: Partial<IToolbarConfig> = {};
-
+  const toolbarConfig: Partial<IToolbarConfig> = {
+    excludeKeys: ['fullScreen', 'group-image', 'group-video']
+  };
   // 及时销毁 editor ，重要！
   useEffect(() => {
     return () => {
+      console.log(toolbarConfig);
       if (editor == null) return;
       editor.destroy();
       setEditor(null);
+      console.log(111);
     };
   }, [editor]);
 
@@ -50,7 +54,7 @@ const RichText = memo(() => {
     <>
       <div className="h-full flex flex-col">
         <Toolbar
-          className="w-full flex items-center justify-center"
+          className="w-11/12 m-auto flex items-center justify-center"
           editor={editor}
           defaultConfig={toolbarConfig}
           mode="default"
