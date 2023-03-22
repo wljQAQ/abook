@@ -2,26 +2,39 @@
  * @Author: wulongjiang
  * @Date: 2023-03-16 20:55:24
  * @LastEditors: wlj
- * @LastEditTime: 2023-03-21 08:38:19
+ * @LastEditTime: 2023-03-22 14:38:08
  * @Description:
  * @FilePath: \abook\src\views\BookSpace\components\BookContent\components\RichText.tsx
  */
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
-import '@/assets/style/editor.css'; //引入重置样式
+import '@/assets/style/editor.less'; //引入重置样式
 
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, ChangeEventHandler } from 'react';
+
+import { Input } from 'antd';
+
 import markdownModule from '@wangeditor/plugin-md';
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import { IDomEditor, IEditorConfig, IToolbarConfig, Boot } from '@wangeditor/editor';
 
+const { TextArea } = Input;
+
 Boot.registerModule(markdownModule);
 
-const RichText = memo(() => {
+interface Props {
+  onTitleChange: (newTitle: string) => void;
+}
+
+const RichText = memo(({ onTitleChange }: Props) => {
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null);
 
   // 编辑器内容
   const [html, setHtml] = useState('<p>hello</p>');
+
+  const handleTitleChange: ChangeEventHandler<HTMLTextAreaElement> = event => {
+    onTitleChange(event.target.value);
+  };
 
   // 模拟 ajax 请求，异步设置 html
   useEffect(() => {
@@ -60,14 +73,22 @@ const RichText = memo(() => {
           mode="default"
         />
 
-        <Editor
-          className="flex-1 overflow-y-hidden"
-          defaultConfig={editorConfig}
-          value={html}
-          onCreated={setEditor}
-          onChange={editor => setHtml(editor.getHtml())}
-          mode="default"
-        />
+        <div className="flex-1 overflow-y-hidden w-3/4  max-w-4xl m-auto py-6">
+          <TextArea
+            className="w-full font-bold text-4xl"
+            bordered={false}
+            autoSize={{ minRows: 1, maxRows: 3 }}
+            onChange={handleTitleChange}
+            placeholder="请输入标题"
+          />
+          <Editor
+            defaultConfig={editorConfig}
+            value={html}
+            onCreated={setEditor}
+            onChange={editor => setHtml(editor.getHtml())}
+            mode="default"
+          />
+        </div>
       </div>
       {/* <div style={{ marginTop: '15px' }}>{html}</div> */}
     </>
