@@ -13,7 +13,7 @@ const { Header, Content } = Layout;
 import RichText from './components/RichText';
 
 export default function Editor() {
-  const [title, setTitle] = useState<String>('无标题文档');
+  const [title, setTitle] = useState<string>('无标题文档');
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
