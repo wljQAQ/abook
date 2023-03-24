@@ -2,14 +2,14 @@
  * @Author: wulongjiang
  * @Date: 2023-03-16 20:55:24
  * @LastEditors: wlj
- * @LastEditTime: 2023-03-22 14:38:08
+ * @LastEditTime: 2023-03-24 17:40:39
  * @Description:
  * @FilePath: \abook\src\views\BookSpace\components\BookContent\components\RichText.tsx
  */
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
 import '@/assets/style/editor.less'; //引入重置样式
 
-import React, { memo, useState, useEffect, ChangeEventHandler } from 'react';
+import React, { memo, useState, useEffect, ChangeEventHandler, KeyboardEventHandler } from 'react';
 
 import { Input } from 'antd';
 
@@ -33,7 +33,18 @@ const RichText = memo(({ onTitleChange }: Props) => {
   const [html, setHtml] = useState('<p>hello</p>');
 
   const handleTitleChange: ChangeEventHandler<HTMLTextAreaElement> = event => {
-    onTitleChange(event.target.value);
+    const title = event.target.value;
+    console.log(title);
+    if (title === '') {
+      onTitleChange('无标题文档');
+      return;
+    }
+    onTitleChange(title);
+  };
+
+  const handleTitlePressEnter: KeyboardEventHandler<HTMLTextAreaElement> = event => {
+    editor?.focus();
+    event.preventDefault();
   };
 
   // 模拟 ajax 请求，异步设置 html
@@ -73,12 +84,13 @@ const RichText = memo(({ onTitleChange }: Props) => {
           mode="default"
         />
 
-        <div className="flex-1 overflow-y-hidden w-3/4  max-w-4xl m-auto py-6">
+        <div className="flex-1  w-3/4  max-w-4xl m-auto py-6">
           <TextArea
             className="w-full font-bold text-4xl"
             bordered={false}
             autoSize={{ minRows: 1, maxRows: 3 }}
             onChange={handleTitleChange}
+            onPressEnter={handleTitlePressEnter}
             placeholder="请输入标题"
           />
           <Editor
