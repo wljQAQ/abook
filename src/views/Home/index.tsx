@@ -6,12 +6,13 @@
  * @Description: 主页面
  */
 
-import { memo } from 'react';
 import { Menu, Layout, MenuProps } from 'antd';
 
 import User from './components/user';
 import Books from './components/books';
 import { ReadOutlined } from '@ant-design/icons';
+import { test } from '@/http/api/service';
+
 const { Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'];
@@ -31,13 +32,14 @@ const Home = () => {
     }
   ]; //菜单列表
 
+  test();
   return (
-    <Layout className="w-full h-full">
-      <Sider className="h-full border-r border-gray-200" theme="light">
+    <Layout className='w-full h-full'>
+      <Sider className='h-full border-r border-gray-200' theme='light'>
         <User></User>
-        <Menu items={menus} mode="inline" />
+        <Menu items={menus} mode='inline' />
       </Sider>
-      <Content className="px-4 pt-4 bg-white">
+      <Content className='px-4 pt-4 bg-white'>
         <Books></Books>
       </Content>
     </Layout>

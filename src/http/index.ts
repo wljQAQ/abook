@@ -166,3 +166,22 @@ export class JAxios {
     });
   }
 }
+
+
+export const request = new JAxios({
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
+  timeout: 20 * 1000,
+  interceptors: {
+    reqSuccessInterceptor: config => {
+      console.log('局部请求成功拦截', import.meta);
+      return config;
+    },
+    resSuccessInterceptor: res => {
+      console.log(res, '局部响应成功拦截');
+      return res;
+    },
+    resErrorInterceptor: err => {
+      return Promise.reject(err);
+    }
+  }
+});

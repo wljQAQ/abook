@@ -16,7 +16,7 @@ export default defineConfig({
     react(),
     viteEslint({
       failOnError: false
-    }),
+    })
   ],
   resolve: {
     alias: {
@@ -24,4 +24,13 @@ export default defineConfig({
       '~': resolve(__dirname, './node_modules')
     }
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  }
 });
