@@ -1,8 +1,8 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-26 10:18:14
- * @LastEditors: wlj
- * @LastEditTime: 2022-10-28 09:41:08
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-04-05 22:39:41
  * @Description:封装axios
  */
 import axios from 'axios';
@@ -10,7 +10,8 @@ import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } fro
 
 interface Result<T> {
   code: number;
-  result: T;
+  msg: string; // 请求错误或成功的提示
+  data: T;
 }
 
 interface Interceptors {
@@ -39,7 +40,7 @@ export class JAxios {
       reqSuccessInterceptor: undefined,
       reqErrorInterceptor: undefined,
       resSuccessInterceptor: undefined,
-      resErrorInterceptor: undefined
+      resErrorInterceptor: undefined,
     };
 
     if (this.options.interceptors) {
@@ -53,7 +54,7 @@ export class JAxios {
       reqSuccessInterceptor,
       reqErrorInterceptor,
       resSuccessInterceptor,
-      resErrorInterceptor
+      resErrorInterceptor,
     } = this.getInterceptors();
 
     this.axiosInstance.interceptors.request.use(reqSuccessInterceptor, reqErrorInterceptor);
@@ -62,23 +63,19 @@ export class JAxios {
     //全局请求拦截器
     this.axiosInstance.interceptors.request.use(
       config => {
-        console.log('全局请求成功拦截');
         return config;
       },
       error => {
-        console.log('全局请求错误拦截');
         return Promise.reject(error);
-      }
+      },
     );
 
     //全局响应拦截器
     this.axiosInstance.interceptors.response.use(
       response => {
-        console.log('全局响应成功拦截');
         return response;
       },
       (error: AxiosError) => {
-        console.log('全局响应错误拦截');
         if (error && error.response) {
           switch (error.response.status) {
             case 400:
@@ -127,7 +124,7 @@ export class JAxios {
         }
 
         return Promise.reject(error.message);
-      }
+      },
     );
   }
 
@@ -137,7 +134,7 @@ export class JAxios {
       this.axiosInstance
         .get(url, config)
         .then(res => {
-          if (res.status === 200) {
+          if (res.status >= 200 && res.status < 300) {
             resolve(res.data);
           } else {
             reject(`GET请求失败 信息：status=${res.status} statusText=${res.statusText}`);
@@ -154,7 +151,7 @@ export class JAxios {
       this.axiosInstance
         .post(url, params, config)
         .then(res => {
-          if (res.status === 200) {
+          if (res.status >= 200 && res.status < 300) {
             resolve(res.data);
           } else {
             reject(`POST请求失败 信息：status=${res.status} statusText=${res.statusText}`);
@@ -167,21 +164,18 @@ export class JAxios {
   }
 }
 
-
 export const request = new JAxios({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
   timeout: 20 * 1000,
   interceptors: {
     reqSuccessInterceptor: config => {
-      console.log('局部请求成功拦截', import.meta);
       return config;
     },
     resSuccessInterceptor: res => {
-      console.log(res, '局部响应成功拦截');
       return res;
     },
     resErrorInterceptor: err => {
       return Promise.reject(err);
-    }
-  }
+    },
+  },
 });
