@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-10-26 10:18:14
  * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-05 22:39:41
+ * @LastEditTime: 2023-04-08 18:14:19
  * @Description:封装axios
  */
 import axios from 'axios';
@@ -146,7 +146,11 @@ export class JAxios {
     });
   }
 
-  post<T = object>(url: string, params?: T, config: AxiosRequestConfig = {}): Promise<Result<T>> {
+  post<T = object>(
+    url: string,
+    params?: object,
+    config: AxiosRequestConfig = {},
+  ): Promise<Result<T>> {
     return new Promise((resolve, reject) => {
       this.axiosInstance
         .post(url, params, config)

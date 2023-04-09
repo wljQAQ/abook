@@ -2,19 +2,19 @@
  * @Author: wlj
  * @Date: 2023-04-05 19:11:00
  * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-05 22:51:29
+ * @LastEditTime: 2023-04-08 16:54:34
  * @Description:
  */
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface userState {
+export interface UserState {
   userInfo: {
     id: number;
     name: string;
   };
 }
 
-const initialState: userState = {
+const initialState: UserState = {
   userInfo: {
     id: 0,
     name: '请登录',
