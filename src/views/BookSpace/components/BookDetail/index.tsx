@@ -1,10 +1,9 @@
 /*
  * @Author: wulongjiang
  * @Date: 2022-11-13 16:53:21
- * @LastEditors: wulongjiang
- * @LastEditTime: 2022-11-15 22:11:46
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-04-18 08:59:06
  * @Description:
- * @FilePath: \blog\src\views\BookSpace\children\BookDetail\index.tsx
  */
 import { memo } from 'react';
 import {
@@ -12,32 +11,37 @@ import {
   BookTwoTone,
   SearchOutlined,
   PlusOutlined,
-  ReadOutlined
+  ReadOutlined,
+  RightOutlined,
 } from '@ant-design/icons';
 import { Input, Button, Menu } from 'antd';
+
+import IconFont from '@/components/IconFont';
 
 const BookDetail = memo(() => {
   const menus = [
     {
       label: '个人知识库',
-      icon: <ReadOutlined />,
+      // icon: <IconFont size={24} type="abook-book" />,
       key: 'submenu',
-      children: []
-    }
+      children: [],
+    },
   ]; //菜单列表
 
   return (
     <>
-      <div className="border-b border-gray-200">
+      <div className="border-b border-gray-200 border border-solid border-l-0 border-t-0 border-r-0">
         {/* 返回个人知识库 */}
         <div className="flex items-center text-gray-400 cursor-pointer">
-          <BankTwoTone twoToneColor="#7e5bef" />
-          <span className="px-1">{'>'}</span>
+          <IconFont size={20} type="abook-shouye" />
+          <span className="px-1">
+            <RightOutlined style={{ fontSize: '12px' }} />
+          </span>
           <span className="text-xs hover:text-gray-500">个人知识库</span>
         </div>
         {/* 知识库设置 */}
         <div className="flex items-center py-4">
-          <BookTwoTone twoToneColor="#7e5bef" className=" text-xl" />
+          <IconFont size={24} type="abook-book" />
           <span className="px-2 font-bold">test</span>
         </div>
       </div>

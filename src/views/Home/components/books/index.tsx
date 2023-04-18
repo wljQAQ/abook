@@ -2,13 +2,13 @@
  * @Author: wlj
  * @Date: 2022-11-01 11:01:34
  * @LastEditors: wlj
- * @LastEditTime: 2023-04-17 14:47:04
+ * @LastEditTime: 2023-04-18 14:57:24
  * @Description:
  */
 import { memo, useMemo, useState } from 'react';
 
 import { Card, List, Dropdown, Button, Space } from 'antd';
-import { MenuOutlined, AppstoreFilled, DownOutlined, PlusOutlined } from '@ant-design/icons';
+import { DownOutlined, PlusOutlined, EllipsisOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 
 import NewBooksModal from './NewBooksModal';
@@ -55,8 +55,8 @@ const Books = memo(() => {
 
   const { checked, unChecked } = useMemo(() => {
     return {
-      checked: <AppstoreFilled />,
-      unChecked: <MenuOutlined />,
+      checked: '我个人的',
+      unChecked: '邀请协作的',
     };
   }, []);
 
@@ -76,9 +76,11 @@ const Books = memo(() => {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-4">
-        <div className=" text-lg font-bold pr-2">知识库</div>
-        {/* <Switch checkedChildren={checked} unCheckedChildreb={unChecked}></Switch> */}
+      <div className="mb-4">
+        <div className="text-lg font-bold pr-2">知识库</div>
+      </div>
+      <div className="flex justify-between mb-4">
+        <Switch checkedChildren={checked} unCheckedChildreb={unChecked}></Switch>
         <Dropdown menu={menuProps}>
           <Button>
             <Space>
@@ -89,10 +91,10 @@ const Books = memo(() => {
         </Dropdown>
       </div>
       <List
-        header={'我的知识库'}
         split={false}
+        className=" justify-between"
         grid={{
-          gutter: 16,
+          gutter: 20,
           xs: 1,
           sm: 2,
           md: 2,
@@ -102,12 +104,17 @@ const Books = memo(() => {
         }}
         dataSource={data}
         renderItem={item => (
-          <List.Item>
-            <Card className=" border-gray-300 h-full">
+          <List.Item className="!p-0">
+            <Card className=" border-gray-300 cursor-pointer">
               <Meta
                 className="pb-3"
                 avatar={<IconFont size={30} type="abook-book" />}
-                title="知识库"
+                title={
+                  <div className="flex justify-between w-full">
+                    <span>知识库</span>
+                    <Button icon={<EllipsisOutlined />} size="small" />
+                  </div>
+                }
                 description="test"
               />
               {/* <div className=" text-gray-400 text-xs pt-2 border-t border-gray-200 border-solid border-b-0 border-l-0 border-r-0">

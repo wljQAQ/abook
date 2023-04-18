@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-11-01 11:22:12
  * @LastEditors: wlj
- * @LastEditTime: 2022-11-03 11:31:43
+ * @LastEditTime: 2023-04-18 08:30:33
  * @Description: books组件的switch按钮
  */
 import { memo, ReactNode, useState, useRef, useEffect } from 'react';
@@ -28,7 +28,7 @@ const Switch = memo(({ checkedChildren, unCheckedChildreb, onChange }: Propertie
   }, [value]);
   return (
     <div
-      className="inline-flex  bg-gray-100 w-24 rounded-md cursor-pointer"
+      className="inline-flex  bg-gray-100 rounded-md cursor-pointer"
       onClick={() => handleChnage()}
     >
       {/* checked */}
@@ -36,13 +36,13 @@ const Switch = memo(({ checkedChildren, unCheckedChildreb, onChange }: Propertie
         <div
           ref={checkedRef}
           className={classNames(
-            'rounded-md h-6 w-1/2 my-0.5 ml-1 flex-center text-sm',
+            'rounded-md px-2 py-1 my-0.5 ml-1 flex-center text-sm',
             {
-              'bg-white shadow': value
+              'bg-white shadow': value,
             },
             {
-              'text-gray-300': !value
-            }
+              'text-gray-300': !value,
+            },
           )}
         >
           {checkedChildren}
@@ -53,13 +53,13 @@ const Switch = memo(({ checkedChildren, unCheckedChildreb, onChange }: Propertie
         <div
           ref={unCheckedRef}
           className={classNames(
-            'rounded-md h-6 w-1/2 mr-1 my-0.5 flex-center text-sm',
+            'rounded-md px-2 py-1 mr-1 my-0.5 flex-center text-sm',
             {
-              'bg-white shadow ': !value
+              'bg-white shadow ': !value,
             },
             {
-              'text-gray-300': value
-            }
+              'text-gray-300': value,
+            },
           )}
         >
           {unCheckedChildreb}

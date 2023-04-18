@@ -2,24 +2,37 @@
  * @Author: wulongjiang
  * @Date: 2022-11-04 20:42:04
  * @LastEditors: wlj
- * @LastEditTime: 2023-03-24 17:42:07
+ * @LastEditTime: 2023-04-18 14:35:21
  * @Description:新建一个知识库页面
  * @FilePath: \abook\src\views\BookSpace\index.tsx
  */
 import BookContent from './components/BookContent';
 import BookDetail from './components/BookDetail';
 
+import { Layout, Space, Button } from 'antd';
+
+const { Header, Footer, Sider, Content } = Layout;
+
 const BookSpace = () => {
   return (
-    <div className="flex w-full h-full">
-      <div className="h-full px-4 pt-2 w-60 bg-white shadow-xl">
+    <Layout className="w-full h-full">
+      <Sider theme="light" className="h-full p-4 w-60 shadow">
         <BookDetail></BookDetail>
-      </div>
-      <div className="h-full flex-1 pt-16 bg-no-repeat bg-cover">
+      </Sider>
+      <Layout>
         {/* <BookContent></BookContent> */}
-        111
-      </div>
-    </div>
+        <Header
+          className="!px-5 flex justify-between"
+          style={{ backgroundColor: '#fff', borderBottom: '1px solid#f5f5f5' }}
+        >
+          <div className=" text-gray-400">title</div>
+          <Space>
+            <Button type="primary">编辑</Button>
+          </Space>
+        </Header>
+        <Content className="bg-white">Content</Content>
+      </Layout>
+    </Layout>
   );
 };
 

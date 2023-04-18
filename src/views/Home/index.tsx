@@ -1,8 +1,8 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-08 20:15:35
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-04-18 08:43:01
  * @Description: 主页面
  */
 
@@ -18,6 +18,7 @@ import { getUserInfo, getBooks } from '@/http/api/home/home';
 
 import User from './components/user';
 import Books from './components/books';
+import IconFont from '@/components/IconFont';
 
 const { Content, Sider } = Layout;
 
@@ -26,7 +27,7 @@ type MenuItem = Required<MenuProps>['items'];
 const defaultMenus: MenuItem = [
   {
     label: '知识库',
-    icon: <ReadOutlined />,
+    icon: <IconFont size={22}  type="abook-book" />,
     key: 'book',
     children: [
       {
@@ -73,7 +74,7 @@ const Home = () => {
         <User></User>
         <Menu items={menus} mode="inline" defaultOpenKeys={['book']} />
       </Sider>
-      <Content className="px-4 pt-4 bg-white">
+      <Content className="px-6 pt-4 bg-white">
         <Books></Books>
       </Content>
     </Layout>
