@@ -1,8 +1,8 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-20 14:43:15
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-03-16 21:01:17
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-04-19 17:41:54
  * @Description:
  */
 import { Suspense } from 'react';
@@ -13,7 +13,13 @@ import { ConfigProvider } from 'antd';
 const App = () => {
   return (
     <div className="app">
-      <ConfigProvider>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#00b96b',
+          },
+        }}
+      >
         <Suspense fallback="loading">{useRoutes(routes)}</Suspense>
       </ConfigProvider>
     </div>

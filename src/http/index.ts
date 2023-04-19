@@ -1,12 +1,14 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-26 10:18:14
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-08 18:14:19
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-04-19 08:38:46
  * @Description:封装axios
  */
 import axios from 'axios';
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+
+import { message } from 'antd';
 
 interface Result<T> {
   code: number;
@@ -120,9 +122,10 @@ export class JAxios {
 
           error.message = `${error.response.status} ${error.message}`;
         } else {
+          message.error(String(error));
           return Promise.reject(error);
         }
-
+        message.error(error.message);
         return Promise.reject(error.message);
       },
     );
