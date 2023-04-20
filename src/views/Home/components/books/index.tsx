@@ -2,10 +2,12 @@
  * @Author: wlj
  * @Date: 2022-11-01 11:01:34
  * @LastEditors: wlj
- * @LastEditTime: 2023-04-18 14:57:24
+ * @LastEditTime: 2023-04-20 14:54:01
  * @Description:
  */
 import { memo, useMemo, useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 
 import { Card, List, Dropdown, Button, Space } from 'antd';
 import { DownOutlined, PlusOutlined, EllipsisOutlined } from '@ant-design/icons';
@@ -13,10 +15,15 @@ import type { MenuProps } from 'antd';
 
 import NewBooksModal from './NewBooksModal';
 import IconFont from '@/components/IconFont';
+import Switch from './Switch';
+
+import type { GetBooksRes } from '@/http/api/home/type';
 
 const { Meta } = Card;
 
-import Switch from './Switch';
+interface Props {
+  books: GetBooksRes;
+}
 
 const data = [
   {
@@ -50,8 +57,9 @@ const items: MenuProps['items'] = [
   },
 ];
 
-const Books = memo(() => {
+const Books = memo(({ books }: Props) => {
   const [isShowBooksModal, setIsShowBooksModal] = useState(false);
+  const navigate = useNavigate();
 
   const { checked, unChecked } = useMemo(() => {
     return {
@@ -59,6 +67,10 @@ const Books = memo(() => {
       unChecked: '邀请协作的',
     };
   }, []);
+
+  function handleBooksClick(item: GetBooksRes[0]) {
+    navigate(`/bookSpace/${item.id}`);
+  }
 
   function handleBooksModal() {
     setIsShowBooksModal(!isShowBooksModal);
@@ -102,16 +114,19 @@ const Books = memo(() => {
           xl: 3,
           xxl: 4,
         }}
-        dataSource={data}
+        locale={{
+          emptyText: '快去创建数据库吧~',
+        }}
+        dataSource={books}
         renderItem={item => (
-          <List.Item className="!p-0">
+          <List.Item className="!p-0" onClick={() => handleBooksClick(item)}>
             <Card className=" border-gray-300 cursor-pointer">
               <Meta
                 className="pb-3"
                 avatar={<IconFont size={30} type="abook-book" />}
                 title={
                   <div className="flex justify-between w-full">
-                    <span>知识库</span>
+                    <span>{item.title}</span>
                     <Button icon={<EllipsisOutlined />} size="small" />
                   </div>
                 }

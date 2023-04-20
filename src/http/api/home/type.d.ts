@@ -3,15 +3,17 @@
  * @Date: 2023-04-08 17:17:59
  * @LastEditors: wulongjiang
  * @LastEditTime: 2023-04-08 18:09:56
- * @Description: 
+ * @Description:
  */
-export type GetBooksRes = [
-  {
-    id: number;
-    title: string;
-    userId: number;
-    description: string;
-    createdAt: string;
-    updatedAt: string;
-  },
-];
+export type GetBooksRes =
+  | [
+      {
+        id: number;
+        title: string;
+        userId: number;
+        description: string;
+        createdAt: string;
+        updatedAt: string;
+      },
+    ]
+  | [];

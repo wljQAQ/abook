@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
  * @LastEditors: wlj
- * @LastEditTime: 2023-04-18 08:43:01
+ * @LastEditTime: 2023-04-20 15:30:11
  * @Description: 主页面
  */
 
@@ -20,14 +20,34 @@ import User from './components/user';
 import Books from './components/books';
 import IconFont from '@/components/IconFont';
 
+import type { GetBooksRes } from '@/http/api/home/type';
+
 const { Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'];
 
+type MenuItem2 = Required<MenuProps>['items'][number];
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: 'group',
+): MenuItem2 {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem2;
+}
+
 const defaultMenus: MenuItem = [
   {
     label: '知识库',
-    icon: <IconFont size={22}  type="abook-book" />,
+    icon: <IconFont size={22} type="abook-book" />,
     key: 'book',
     children: [
       {
@@ -42,9 +62,12 @@ const Home = () => {
   const dispatch = useAppDispatch();
 
   const [menus, setMenu] = useState<MenuItem>(defaultMenus);
+  const [books, setBooks] = useState<GetBooksRes>([]);
 
   async function getBooksByUserId(userId: number) {
     const { data } = await getBooks(userId); //获取知识库
+    setBooks(data);
+
     setMenu([
       {
         label: '知识库',
@@ -72,10 +95,17 @@ const Home = () => {
     <Layout className="w-full h-full">
       <Sider className="h-full border-r border-gray-200" theme="light">
         <User></User>
-        <Menu items={menus} mode="inline" defaultOpenKeys={['book']} />
+        <Menu
+          theme="light"
+          // items={menus}
+          items={menus}
+          mode="inline"
+          defaultSelectedKeys={['book']}
+          defaultOpenKeys={['book']}
+        />
       </Sider>
       <Content className="px-6 pt-4 bg-white">
-        <Books></Books>
+        <Books books={books}></Books>
       </Content>
     </Layout>
   );

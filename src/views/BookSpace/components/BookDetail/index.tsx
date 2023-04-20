@@ -2,7 +2,7 @@
  * @Author: wulongjiang
  * @Date: 2022-11-13 16:53:21
  * @LastEditors: wlj
- * @LastEditTime: 2023-04-18 08:59:06
+ * @LastEditTime: 2023-04-20 15:07:30
  * @Description:
  */
 import { memo } from 'react';
@@ -13,17 +13,25 @@ import {
   PlusOutlined,
   ReadOutlined,
   RightOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
-import { Input, Button, Menu } from 'antd';
+import { Input, Button, Menu, MenuProps } from 'antd';
 
 import IconFont from '@/components/IconFont';
 
+type MenuItem = Required<MenuProps>['items'];
+
 const BookDetail = memo(() => {
-  const menus = [
+  const menus: MenuItem = [
+    {
+      key: 1,
+      label: '首页',
+      icon: <HomeOutlined />,
+    },
     {
       label: '个人知识库',
       // icon: <IconFont size={24} type="abook-book" />,
-      key: 'submenu',
+      key: 2,
       children: [],
     },
   ]; //菜单列表
@@ -59,7 +67,13 @@ const BookDetail = memo(() => {
         ></Button>
       </div>
       <div className="mt-2">
-        <Menu className="!border-none" inlineIndent={0} items={menus} mode="inline" />
+        <Menu
+          className="!border-none"
+          inlineIndent={10}
+          items={menus}
+          mode="inline"
+          defaultSelectedKeys={['1']}
+        />
       </div>
     </>
   );

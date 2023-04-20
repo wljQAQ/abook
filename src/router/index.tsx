@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-10-21 09:20:10
  * @LastEditors: wlj
- * @LastEditTime: 2023-04-18 08:44:14
+ * @LastEditTime: 2023-04-20 14:51:49
  * @Description:
  */
 import { lazy } from 'react';
@@ -17,7 +17,7 @@ const routes = [
     element: <Home />
   },
   {
-    path: '/bookSpace',
+    path: '/bookSpace/:id',
     element: <BookSpace />
   },
   {

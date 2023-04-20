@@ -2,21 +2,24 @@
  * @Author: wulongjiang
  * @Date: 2022-11-04 20:42:04
  * @LastEditors: wlj
- * @LastEditTime: 2023-04-18 14:35:21
+ * @LastEditTime: 2023-04-20 15:02:42
  * @Description:新建一个知识库页面
- * @FilePath: \abook\src\views\BookSpace\index.tsx
  */
 import BookContent from './components/BookContent';
 import BookDetail from './components/BookDetail';
 
 import { Layout, Space, Button } from 'antd';
 
+import { useParams } from 'react-router-dom';
+
 const { Header, Footer, Sider, Content } = Layout;
 
 const BookSpace = () => {
+  const { id } = useParams();
+  console.log(id);
   return (
     <Layout className="w-full h-full">
-      <Sider theme="light" className="h-full p-4 w-60 shadow">
+      <Sider theme="light" className="h-full pt-4 px-2 w-60 shadow">
         <BookDetail></BookDetail>
       </Sider>
       <Layout>

@@ -2,9 +2,8 @@
  * @Author: wulongjiang
  * @Date: 2023-03-16 20:55:24
  * @LastEditors: wlj
- * @LastEditTime: 2023-03-24 17:40:39
+ * @LastEditTime: 2023-04-20 11:50:13
  * @Description:
- * @FilePath: \abook\src\views\BookSpace\components\BookContent\components\RichText.tsx
  */
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
 import '@/assets/style/editor.less'; //引入重置样式
@@ -17,20 +16,24 @@ import markdownModule from '@wangeditor/plugin-md';
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import { IDomEditor, IEditorConfig, IToolbarConfig, Boot } from '@wangeditor/editor';
 
+import { throttle } from 'lodash-es';
+
 const { TextArea } = Input;
 
 Boot.registerModule(markdownModule);
 
 interface Props {
+  title: string;
+  body: string;
+  onBodyChange: (body: string) => void;
   onTitleChange: (newTitle: string) => void;
 }
 
-const RichText = memo(({ onTitleChange }: Props) => {
+const RichText = memo(({ onTitleChange, title, body, onBodyChange }: Props) => {
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null);
 
   // 编辑器内容
-  const [html, setHtml] = useState('<p>hello</p>');
 
   const handleTitleChange: ChangeEventHandler<HTMLTextAreaElement> = event => {
     const title = event.target.value;
@@ -50,18 +53,18 @@ const RichText = memo(({ onTitleChange }: Props) => {
   // 模拟 ajax 请求，异步设置 html
   useEffect(() => {
     setTimeout(() => {
-      setHtml('<p>hello world</p>');
+      onBodyChange('<p>hello world</p>');
     }, 1500);
   }, []);
 
   // 编辑器配置
   const editorConfig: Partial<IEditorConfig> = {
-    placeholder: '请输入内容...'
+    placeholder: '请输入内容...',
   };
 
   // 工具栏配置
   const toolbarConfig: Partial<IToolbarConfig> = {
-    excludeKeys: ['fullScreen', 'group-image', 'group-video']
+    excludeKeys: ['fullScreen', 'group-image', 'group-video'],
   };
   // 及时销毁 editor ，重要！
   useEffect(() => {
@@ -86,6 +89,7 @@ const RichText = memo(({ onTitleChange }: Props) => {
 
         <div className="flex-1  w-3/4  max-w-4xl m-auto py-6">
           <TextArea
+            defaultValue={title}
             className="w-full font-bold text-4xl"
             bordered={false}
             autoSize={{ minRows: 1, maxRows: 3 }}
@@ -95,9 +99,10 @@ const RichText = memo(({ onTitleChange }: Props) => {
           />
           <Editor
             defaultConfig={editorConfig}
-            value={html}
+            value={body}
             onCreated={setEditor}
-            onChange={editor => setHtml(editor.getHtml())}
+            
+            onChange={throttle(editor => onBodyChange(editor.getHtml()), 500)}
             mode="default"
           />
         </div>
