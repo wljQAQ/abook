@@ -1,8 +1,8 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
- * @LastEditors: wlj
- * @LastEditTime: 2023-04-20 15:30:11
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-04-23 18:50:13
  * @Description: 主页面
  */
 
@@ -104,7 +104,7 @@ const Home = () => {
           defaultOpenKeys={['book']}
         />
       </Sider>
-      <Content className="px-6 pt-4 bg-white">
+      <Content className="px-6 pt-4 bg-white overflow-y-auto">
         <Books books={books}></Books>
       </Content>
     </Layout>
