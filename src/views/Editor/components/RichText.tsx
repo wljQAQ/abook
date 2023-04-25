@@ -1,8 +1,8 @@
 /*
  * @Author: wulongjiang
  * @Date: 2023-03-16 20:55:24
- * @LastEditors: wlj
- * @LastEditTime: 2023-04-20 11:50:13
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-04-25 22:36:57
  * @Description:
  */
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
@@ -37,7 +37,6 @@ const RichText = memo(({ onTitleChange, title, body, onBodyChange }: Props) => {
 
   const handleTitleChange: ChangeEventHandler<HTMLTextAreaElement> = event => {
     const title = event.target.value;
-    console.log(title);
     if (title === '') {
       onTitleChange('无标题文档');
       return;
@@ -51,11 +50,8 @@ const RichText = memo(({ onTitleChange, title, body, onBodyChange }: Props) => {
   };
 
   // 模拟 ajax 请求，异步设置 html
-  useEffect(() => {
-    setTimeout(() => {
-      onBodyChange('<p>hello world</p>');
-    }, 1500);
-  }, []);
+  // useEffect(() => {
+  // }, []);
 
   // 编辑器配置
   const editorConfig: Partial<IEditorConfig> = {
@@ -73,7 +69,6 @@ const RichText = memo(({ onTitleChange, title, body, onBodyChange }: Props) => {
       if (editor == null) return;
       editor.destroy();
       setEditor(null);
-      console.log(111);
     };
   }, [editor]);
 
@@ -89,7 +84,7 @@ const RichText = memo(({ onTitleChange, title, body, onBodyChange }: Props) => {
 
         <div className="flex-1  w-3/4  max-w-4xl m-auto py-6">
           <TextArea
-            defaultValue={title}
+            value={title}
             className="w-full font-bold text-4xl"
             bordered={false}
             autoSize={{ minRows: 1, maxRows: 3 }}
@@ -101,13 +96,11 @@ const RichText = memo(({ onTitleChange, title, body, onBodyChange }: Props) => {
             defaultConfig={editorConfig}
             value={body}
             onCreated={setEditor}
-            
             onChange={throttle(editor => onBodyChange(editor.getHtml()), 500)}
             mode="default"
           />
         </div>
       </div>
-      {/* <div style={{ marginTop: '15px' }}>{html}</div> */}
     </>
   );
 });

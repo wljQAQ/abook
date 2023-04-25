@@ -1,8 +1,8 @@
 /*
  * @Author: wulongjiang
  * @Date: 2022-11-04 20:42:04
- * @LastEditors: wlj
- * @LastEditTime: 2023-04-25 08:48:18
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-04-25 22:20:58
  * @Description:新建一个知识库页面
  */
 import BookContent from './components/BookContent';
@@ -13,51 +13,74 @@ import { Layout, Space, Button } from 'antd';
 import { useParams } from 'react-router-dom';
 
 import { getArticlesHomePage, getArticlesList } from '@/http/api/bookSpace';
+import { Article } from '@/http/api/bookSpace/type';
+
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
 import '@/assets/style/editor.less'; //引入重置样式
 
+import { IDomEditor } from '@wangeditor/editor';
 import { Editor } from '@wangeditor/editor-for-react';
 
 const { Header, Sider, Content } = Layout;
 
 const BookSpace = () => {
   const { id } = useParams();
-  const [article, setArticle] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
+  const navigate = useNavigate();
+  //获取文章对线
+  const [articleObj, setArticleObj] = useState<Article | null>(null);
+  // editor 实例
+  const [editor, setEditor] = useState<IDomEditor | null>(null);
 
   async function fetchArticlesHomePage() {
     if (id === undefined) return;
     const { code, msg, data } = await getArticlesHomePage(id);
-    console.log(data);
-    setArticle(data.body);
-    setTitle(data.title);
+    setArticleObj(data);
   }
 
   useEffect(() => {
     fetchArticlesHomePage();
   }, []);
 
+  // 及时销毁 editor ，重要！
+  useEffect(() => {
+    return () => {
+      if (editor == null) return;
+      editor.destroy();
+      setEditor(null);
+    };
+  }, [editor]);
+
   return (
     <Layout className="w-full h-full">
       <Sider theme="light" width={250} className="h-full pt-4 px-2 shadow">
         <BookDetail></BookDetail>
       </Sider>
-      <Layout>
+      <Layout className=" overflow-y-auto">
         {/* <BookContent></BookContent> */}
         <Header
           className="!px-5 flex justify-between"
           style={{ backgroundColor: '#fff', borderBottom: '1px solid#f5f5f5' }}
         >
-          <div className=" text-gray-400">title</div>
+          <div className=" text-gray-400">{articleObj?.title || '暂未设置首页'}</div>
           <Space>
-            <Button type="primary">编辑</Button>
+            <Button type="primary" onClick={() => navigate(`/editor/${articleObj?.id}`)}>
+              编辑
+            </Button>
           </Space>
         </Header>
-        <Content className="bg-white pl-14 pt-5">
-          <h1>{title}</h1>
-          <div id="article-content" dangerouslySetInnerHTML={{ __html: article }}></div>
+        <Content className="bg-white pt-5 pl-5">
+          <h1>{articleObj?.title || '暂未设置首页'}</h1>
+          <Editor
+            defaultConfig={{
+              readOnly: true,
+            }}
+            value={articleObj?.body || ''}
+            onCreated={setEditor}
+            mode="default"
+          />
         </Content>
       </Layout>
     </Layout>

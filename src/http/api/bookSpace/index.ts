@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-10-26 14:12:28
  * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-23 21:27:32
+ * @LastEditTime: 2023-04-25 22:28:09
  * @Description: api
  */
 import { request } from '@/http';
@@ -19,4 +19,8 @@ export const getArticlesHomePage = function (id: number | string) {
 
 export const createArticle = function (params: Article) {
   return request.post('/articles/create', params);
+};
+
+export const getArticlesDetail = function (id: number | string) {
+  return request.post<Article>('/articles/getDetail', { id });
 };
