@@ -1,8 +1,8 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-26 14:12:28
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-09 11:11:25
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-04-25 08:38:02
  * @Description: api
  */
 import { request } from '@/http';
@@ -35,5 +35,5 @@ interface Book {
  * @return {*}
  */
 export const createBook = function (params: Book) {
-  return request.post('/book/createBook', params);
+  return request.post<GetBooksRes[0]>('/book/createBook', params);
 };

@@ -1,8 +1,8 @@
 /*
  * @Author: wulongjiang
  * @Date: 2022-11-04 20:42:04
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-23 22:00:21
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-04-25 08:48:18
  * @Description:新建一个知识库页面
  */
 import BookContent from './components/BookContent';
@@ -25,12 +25,14 @@ const { Header, Sider, Content } = Layout;
 const BookSpace = () => {
   const { id } = useParams();
   const [article, setArticle] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
 
   async function fetchArticlesHomePage() {
     if (id === undefined) return;
     const { code, msg, data } = await getArticlesHomePage(id);
     console.log(data);
     setArticle(data.body);
+    setTitle(data.title);
   }
 
   useEffect(() => {
@@ -39,7 +41,7 @@ const BookSpace = () => {
 
   return (
     <Layout className="w-full h-full">
-      <Sider theme="light" className="h-full pt-4 px-2 w-60 shadow">
+      <Sider theme="light" width={250} className="h-full pt-4 px-2 shadow">
         <BookDetail></BookDetail>
       </Sider>
       <Layout>
@@ -53,7 +55,8 @@ const BookSpace = () => {
             <Button type="primary">编辑</Button>
           </Space>
         </Header>
-        <Content className="bg-white">
+        <Content className="bg-white pl-14 pt-5">
+          <h1>{title}</h1>
           <div id="article-content" dangerouslySetInnerHTML={{ __html: article }}></div>
         </Content>
       </Layout>
