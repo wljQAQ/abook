@@ -1,28 +1,27 @@
 /*
  * @Author: wulongjiang
  * @Date: 2022-11-13 16:53:21
- * @LastEditors: wlj
- * @LastEditTime: 2023-04-20 15:07:30
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-05-01 17:20:54
  * @Description:
  */
 import { memo } from 'react';
-import {
-  BankTwoTone,
-  BookTwoTone,
-  SearchOutlined,
-  PlusOutlined,
-  ReadOutlined,
-  RightOutlined,
-  HomeOutlined,
-} from '@ant-design/icons';
-import { Input, Button, Menu, MenuProps } from 'antd';
+import { useParams, useNavigate } from 'react-router-dom';
+
+import { SearchOutlined, PlusOutlined, RightOutlined, HomeOutlined } from '@ant-design/icons';
+import { Input, Button, Menu, MenuProps, Dropdown } from 'antd';
 
 import IconFont from '@/components/IconFont';
+
+import { createArticle } from '@/http/api/bookSpace';
 
 type MenuItem = Required<MenuProps>['items'];
 
 const BookDetail = memo(() => {
-  const menus: MenuItem = [
+  const { id } = useParams();
+
+  //菜单列表
+  const articleMenus: MenuItem = [
     {
       key: 1,
       label: '首页',
@@ -34,7 +33,24 @@ const BookDetail = memo(() => {
       key: 2,
       children: [],
     },
-  ]; //菜单列表
+  ];
+  //文章编辑菜单
+  const articleEditMenu: MenuItem = [
+    {
+      key: 'doc',
+      label: '文档',
+      icon: <IconFont type="abook-wenbenwendang-txt" />,
+    },
+  ];
+
+  const handleMenuClick: MenuProps['onClick'] = async e => {
+    if (e.key === 'doc') {
+      const { code, msg } = await createArticle({
+        bookId: Number(id),
+      });
+    }
+    console.log('click', e);
+  };
 
   return (
     <>
@@ -60,17 +76,19 @@ const BookDetail = memo(() => {
           placeholder="搜索"
           prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />}
         />
-        <Button
-          className="ml-2"
-          style={{ borderRadius: '5px', height: '30px' }}
-          icon={<PlusOutlined style={{ color: '#bfbfbf' }} />}
-        ></Button>
+        <Dropdown menu={{ items: articleEditMenu, onClick: handleMenuClick }}>
+          <Button
+            className="ml-2"
+            style={{ borderRadius: '5px', height: '30px' }}
+            icon={<PlusOutlined style={{ color: '#bfbfbf' }} />}
+          ></Button>
+        </Dropdown>
       </div>
       <div className="mt-2">
         <Menu
           className="!border-none"
           inlineIndent={10}
-          items={menus}
+          items={articleMenus}
           mode="inline"
           defaultSelectedKeys={['1']}
         />
