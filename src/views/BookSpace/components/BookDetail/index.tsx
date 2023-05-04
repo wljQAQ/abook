@@ -2,7 +2,7 @@
  * @Author: wulongjiang
  * @Date: 2022-11-13 16:53:21
  * @LastEditors: wulongjiang
- * @LastEditTime: 2023-05-01 17:20:54
+ * @LastEditTime: 2023-05-04 23:02:29
  * @Description:
  */
 import { memo } from 'react';
@@ -19,6 +19,7 @@ type MenuItem = Required<MenuProps>['items'];
 
 const BookDetail = memo(() => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   //菜单列表
   const articleMenus: MenuItem = [
@@ -31,7 +32,13 @@ const BookDetail = memo(() => {
       label: '个人知识库',
       // icon: <IconFont size={24} type="abook-book" />,
       key: 2,
-      children: [],
+      children: [
+        {
+          key: '2-1',
+          label: '首页',
+          icon: <HomeOutlined />,
+        },
+      ],
     },
   ];
   //文章编辑菜单
@@ -45,11 +52,19 @@ const BookDetail = memo(() => {
 
   const handleMenuClick: MenuProps['onClick'] = async e => {
     if (e.key === 'doc') {
-      const { code, msg } = await createArticle({
+      const { code, data, msg } = await createArticle({
         bookId: Number(id),
       });
+
+      if (code === 0) {
+        navigate(`/editor/${data.id}`);
+      }
     }
-    console.log('click', e);
+  };
+
+  const handleArticleListClick: MenuProps['onClick'] = async e => {
+    console.log(e);
+    navigate(`/bookSpace/${10}`);
   };
 
   return (
@@ -89,6 +104,7 @@ const BookDetail = memo(() => {
           className="!border-none"
           inlineIndent={10}
           items={articleMenus}
+          onClick={handleArticleListClick}
           mode="inline"
           defaultSelectedKeys={['1']}
         />
