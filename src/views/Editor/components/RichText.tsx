@@ -2,7 +2,7 @@
  * @Author: wulongjiang
  * @Date: 2023-03-16 20:55:24
  * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-25 22:36:57
+ * @LastEditTime: 2023-05-04 20:48:58
  * @Description:
  */
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
@@ -49,10 +49,6 @@ const RichText = memo(({ onTitleChange, title, body, onBodyChange }: Props) => {
     event.preventDefault();
   };
 
-  // 模拟 ajax 请求，异步设置 html
-  // useEffect(() => {
-  // }, []);
-
   // 编辑器配置
   const editorConfig: Partial<IEditorConfig> = {
     placeholder: '请输入内容...',
@@ -65,7 +61,6 @@ const RichText = memo(({ onTitleChange, title, body, onBodyChange }: Props) => {
   // 及时销毁 editor ，重要！
   useEffect(() => {
     return () => {
-      console.log(toolbarConfig);
       if (editor == null) return;
       editor.destroy();
       setEditor(null);

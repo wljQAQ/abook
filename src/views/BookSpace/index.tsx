@@ -2,7 +2,7 @@
  * @Author: wulongjiang
  * @Date: 2022-11-04 20:42:04
  * @LastEditors: wlj
- * @LastEditTime: 2023-05-05 09:09:29
+ * @LastEditTime: 2023-05-05 09:20:16
  * @Description:新建一个知识库页面
  */
 import BookContent from './components/BookContent';
@@ -38,6 +38,7 @@ const BookSpace = () => {
     if (ArticleId === undefined) return;
     const { code, msg, data } = await getArticlesDetail(Number(ArticleId));
     setArticleObj(data);
+    // getArticlesList(Number(id));
   }
 
   useEffect(() => {

@@ -2,30 +2,31 @@
  * @Author: wlj
  * @Date: 2023-03-17 16:55:52
  * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-25 22:33:36
+ * @LastEditTime: 2023-05-04 20:51:41
  * @Description:
  */
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { Layout, Button } from 'antd';
+import { Layout, Button, message } from 'antd';
 const { Header, Content } = Layout;
 
-import { getArticlesDetail } from '@/http/api/bookSpace';
+import { getArticlesDetail, updateArticleDetail } from '@/http/api/bookSpace';
 import { Article } from '@/http/api/bookSpace/type';
 
 import { useParams } from 'react-router-dom';
 
 import RichText from './components/RichText';
 
+import { useImmer } from 'use-immer';
+
 export default function Editor() {
-  const [richTextBody, setRichTextBody] = useState<string>('');
   const { id } = useParams();
   //获取文章对线
-  const [articleObj, setArticleObj] = useState<Article | null>(null);
+  const [articleObj, setArticleObj] = useImmer<Article | null>(null);
 
   async function fetchArticlesDetail() {
     if (id === undefined) return;
-    const { code, msg, data } = await getArticlesDetail(id);
+    const { data } = await getArticlesDetail(id);
     setArticleObj(data);
   }
 
@@ -35,11 +36,28 @@ export default function Editor() {
 
   const handleTitleChange = (newTitle: string) => {
     // setTitle(newTitle);/
+    setArticleObj(draft => {
+      if (draft?.title === undefined) return;
+      draft.title = newTitle;
+    });
   };
 
   const handleRichTextBodyChange = (body: string) => {
     console.log(body);
-    setRichTextBody(body);
+    setArticleObj(draft => {
+      if (draft?.body === undefined) return;
+      draft.body = body;
+    });
+  };
+
+  const onSave = async function () {
+    if (!articleObj) return;
+    const { code, msg } = await updateArticleDetail(articleObj);
+    if (code === 0) {
+      message.success('保存成功');
+    } else {
+      message.error(msg);
+    }
   };
 
   return (
@@ -48,8 +66,8 @@ export default function Editor() {
         className="!bg-white flex justify-between items-center"
         style={{ borderBottom: '1px solid hsla(0, 0%, 0%, 0.04)' }}
       >
-        <h1>{articleObj?.title}</h1>
-        <Button>更新</Button>
+        <h1>{articleObj?.title || '暂无标题'}</h1>
+        <Button onClick={onSave}>更新</Button>
       </Header>
       <Content className="bg-white">
         <RichText

@@ -2,27 +2,27 @@
  * @Author: wulongjiang
  * @Date: 2022-11-13 16:53:21
  * @LastEditors: wlj
- * @LastEditTime: 2023-04-27 08:43:59
+ * @LastEditTime: 2023-05-05 09:22:09
  * @Description:
  */
 import { memo } from 'react';
-import {
-  BankTwoTone,
-  BookTwoTone,
-  SearchOutlined,
-  PlusOutlined,
-  ReadOutlined,
-  RightOutlined,
-  HomeOutlined,
-} from '@ant-design/icons';
-import { Input, Button, Menu, MenuProps } from 'antd';
+import { useParams, useNavigate } from 'react-router-dom';
+
+import { SearchOutlined, PlusOutlined, RightOutlined, HomeOutlined } from '@ant-design/icons';
+import { Input, Button, Menu, MenuProps, Dropdown } from 'antd';
 
 import IconFont from '@/components/IconFont';
+
+import { createArticle } from '@/http/api/bookSpace';
 
 type MenuItem = Required<MenuProps>['items'];
 
 const BookDetail = memo(() => {
-  const menus: MenuItem = [
+  const { bookId } = useParams();
+  const navigate = useNavigate();
+
+  //菜单列表
+  const articleMenus: MenuItem = [
     {
       key: 1,
       label: '首页',
@@ -32,9 +32,40 @@ const BookDetail = memo(() => {
       label: '个人知识库',
       // icon: <IconFont size={24} type="abook-book" />,
       key: 2,
-      children: [],
+      children: [
+        {
+          key: '2-1',
+          label: '首页',
+          icon: <HomeOutlined />,
+        },
+      ],
     },
-  ]; //菜单列表
+  ];
+  //文章编辑菜单
+  const articleEditMenu: MenuItem = [
+    {
+      key: 'doc',
+      label: '文档',
+      icon: <IconFont type="abook-wenbenwendang-txt" />,
+    },
+  ];
+
+  const handleMenuClick: MenuProps['onClick'] = async e => {
+    if (e.key === 'doc') {
+      const { code, data, msg } = await createArticle({
+        bookId: Number(bookId),
+      });
+
+      if (code === 0) {
+        navigate(`/editor/${data.id}`);
+      }
+    }
+  };
+
+  const handleArticleListClick: MenuProps['onClick'] = async e => {
+    console.log(e);
+    navigate(`/bookSpace/${10}`);
+  };
 
   return (
     <>
@@ -60,13 +91,20 @@ const BookDetail = memo(() => {
           placeholder="搜索"
           prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />}
         />
-        <Button className="ml-2" icon={<PlusOutlined style={{ color: '#bfbfbf' }} />}></Button>
+        <Dropdown menu={{ items: articleEditMenu, onClick: handleMenuClick }}>
+          <Button
+            className="ml-2"
+            style={{ borderRadius: '5px', height: '30px' }}
+            icon={<PlusOutlined style={{ color: '#bfbfbf' }} />}
+          ></Button>
+        </Dropdown>
       </div>
       <div className="mt-2">
         <Menu
           className="!border-none"
           inlineIndent={10}
-          items={menus}
+          items={articleMenus}
+          onClick={handleArticleListClick}
           mode="inline"
           defaultSelectedKeys={['1']}
         />
