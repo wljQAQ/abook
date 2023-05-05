@@ -1,8 +1,8 @@
 /*
  * @Author: wlj
  * @Date: 2022-11-01 11:01:34
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-23 18:48:52
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-05-05 09:14:31
  * @Description:
  */
 import { memo, useMemo, useState } from 'react';
@@ -18,33 +18,13 @@ import IconFont from '@/components/IconFont';
 import Switch from './Switch';
 
 import type { GetBooksRes } from '@/http/api/home/type';
+import { getArticlesHomePage } from '@/http/api/bookSpace';
 
 const { Meta } = Card;
 
 interface Props {
   books: GetBooksRes;
 }
-
-const data = [
-  {
-    title: 'Title 1',
-  },
-  {
-    title: 'Title 2',
-  },
-  {
-    title: 'Title 3',
-  },
-  {
-    title: 'Title 4',
-  },
-  {
-    title: 'Title 5',
-  },
-  {
-    title: 'Title 6',
-  },
-];
 
 const items: MenuProps['items'] = [
   {
@@ -68,8 +48,9 @@ const Books = memo(({ books }: Props) => {
     };
   }, []);
 
-  function handleBooksClick(item: GetBooksRes[0]) {
-    navigate(`/bookSpace/${item.id}`);
+  async function handleBooksClick(item: GetBooksRes[0]) {
+    const { data } = await getArticlesHomePage(item.id);
+    navigate(`/bookSpace/${item.id}/${data.id}`);
   }
 
   function handleBooksModal() {
@@ -77,7 +58,6 @@ const Books = memo(({ books }: Props) => {
   }
 
   const handleMenuClick: MenuProps['onClick'] = e => {
-    console.log('click2', e, isShowBooksModal);
     handleBooksModal();
   };
 

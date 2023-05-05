@@ -1,8 +1,8 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-23 18:50:13
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-05-05 08:47:50
  * @Description: 主页面
  */
 
@@ -25,24 +25,6 @@ import type { GetBooksRes } from '@/http/api/home/type';
 const { Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'];
-
-type MenuItem2 = Required<MenuProps>['items'][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: 'group',
-): MenuItem2 {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  } as MenuItem2;
-}
 
 const defaultMenus: MenuItem = [
   {

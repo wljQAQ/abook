@@ -2,7 +2,7 @@
  * @Author: wulongjiang
  * @Date: 2022-11-13 16:53:21
  * @LastEditors: wlj
- * @LastEditTime: 2023-04-20 15:07:30
+ * @LastEditTime: 2023-04-27 08:43:59
  * @Description:
  */
 import { memo } from 'react';
@@ -60,11 +60,7 @@ const BookDetail = memo(() => {
           placeholder="搜索"
           prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />}
         />
-        <Button
-          className="ml-2"
-          style={{ borderRadius: '5px', height: '30px' }}
-          icon={<PlusOutlined style={{ color: '#bfbfbf' }} />}
-        ></Button>
+        <Button className="ml-2" icon={<PlusOutlined style={{ color: '#bfbfbf' }} />}></Button>
       </div>
       <div className="mt-2">
         <Menu

@@ -1,8 +1,8 @@
 /*
  * @Author: wulongjiang
  * @Date: 2022-11-04 20:42:04
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-25 22:20:58
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-05-05 09:09:29
  * @Description:新建一个知识库页面
  */
 import BookContent from './components/BookContent';
@@ -12,7 +12,7 @@ import { Layout, Space, Button } from 'antd';
 
 import { useParams } from 'react-router-dom';
 
-import { getArticlesHomePage, getArticlesList } from '@/http/api/bookSpace';
+import { getArticlesDetail } from '@/http/api/bookSpace';
 import { Article } from '@/http/api/bookSpace/type';
 
 import { useEffect, useState } from 'react';
@@ -27,7 +27,7 @@ import { Editor } from '@wangeditor/editor-for-react';
 const { Header, Sider, Content } = Layout;
 
 const BookSpace = () => {
-  const { id } = useParams();
+  const { bookId, ArticleId } = useParams();
   const navigate = useNavigate();
   //获取文章对线
   const [articleObj, setArticleObj] = useState<Article | null>(null);
@@ -35,14 +35,14 @@ const BookSpace = () => {
   const [editor, setEditor] = useState<IDomEditor | null>(null);
 
   async function fetchArticlesHomePage() {
-    if (id === undefined) return;
-    const { code, msg, data } = await getArticlesHomePage(id);
+    if (ArticleId === undefined) return;
+    const { code, msg, data } = await getArticlesDetail(Number(ArticleId));
     setArticleObj(data);
   }
 
   useEffect(() => {
     fetchArticlesHomePage();
-  }, []);
+  }, [ArticleId]);
 
   // 及时销毁 editor ，重要！
   useEffect(() => {

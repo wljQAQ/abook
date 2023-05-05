@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-11-02 17:29:38
  * @LastEditors: wlj
- * @LastEditTime: 2023-04-25 08:38:40
+ * @LastEditTime: 2023-05-05 09:10:42
  * @Description: 新建知识库弹窗
  */
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -38,7 +38,7 @@ const NewBooksModal = memo(({ show, onOk, onCancel }: Properties) => {
     const { data } = await createBook({ ...booksDetail, userId: userInfo.id });
     if (onOk) {
       onOk();
-      navigate(`/bookSpace/${data.id}`);
+      navigate(`/bookSpace/${data.id}/${data.homePage.id}`);
     }
   }, [booksDetail]);
 

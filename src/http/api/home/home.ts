@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-10-26 14:12:28
  * @LastEditors: wlj
- * @LastEditTime: 2023-04-25 08:38:02
+ * @LastEditTime: 2023-05-05 09:11:23
  * @Description: api
  */
 import { request } from '@/http';
@@ -10,6 +10,7 @@ import { request } from '@/http';
 import { UserState } from '@/store/modules/user';
 
 import type { GetBooksRes } from './type';
+import { Article } from './../bookSpace/type.d';
 
 export const getUserInfo = function () {
   return request.post<UserState['userInfo']>('/user/getUser');
@@ -35,5 +36,5 @@ interface Book {
  * @return {*}
  */
 export const createBook = function (params: Book) {
-  return request.post<GetBooksRes[0]>('/book/createBook', params);
+  return request.post<GetBooksRes[0] & Record<'homePage', Article>>('/book/createBook', params);
 };

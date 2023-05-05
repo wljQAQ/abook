@@ -1,8 +1,8 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-21 09:20:10
- * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-25 22:21:46
+ * @LastEditors: wlj
+ * @LastEditTime: 2023-05-05 08:44:42
  * @Description:
  */
 import { lazy } from 'react';
@@ -14,16 +14,16 @@ const Editor = lazy(() => import('@/views/Editor'));
 const routes = [
   {
     path: '/',
-    element: <Home />
+    element: <Home />,
   },
   {
-    path: '/bookSpace/:id',
-    element: <BookSpace />
+    path: '/bookSpace/:bookId/:ArticleId',
+    element: <BookSpace />,
   },
   {
     path: '/editor/:id',
-    element: <Editor />
-  }
+    element: <Editor />,
+  },
 ];
 
 export default routes;
