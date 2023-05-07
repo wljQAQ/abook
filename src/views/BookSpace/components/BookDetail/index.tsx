@@ -1,28 +1,42 @@
 /*
  * @Author: wulongjiang
  * @Date: 2022-11-13 16:53:21
- * @LastEditors: wlj
- * @LastEditTime: 2023-05-05 09:22:09
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-05-06 16:00:29
  * @Description:
  */
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { SearchOutlined, PlusOutlined, RightOutlined, HomeOutlined } from '@ant-design/icons';
 import { Input, Button, Menu, MenuProps, Dropdown } from 'antd';
 
+import { useImmer } from 'use-immer';
+
 import IconFont from '@/components/IconFont';
 
-import { createArticle } from '@/http/api/bookSpace';
+import { createArticle, getArticlesList } from '@/http/api/bookSpace';
 
 type MenuItem = Required<MenuProps>['items'];
+
+type ArticleMenu = [
+  {
+    key: number;
+    label: string;
+    icon: JSX.Element;
+  },
+  {
+    key: number;
+    label: string;
+    children: MenuItem;
+  },
+];
 
 const BookDetail = memo(() => {
   const { bookId } = useParams();
   const navigate = useNavigate();
 
-  //菜单列表
-  const articleMenus: MenuItem = [
+  const [menu, setMenu] = useImmer<ArticleMenu>([
     {
       key: 1,
       label: '首页',
@@ -30,17 +44,32 @@ const BookDetail = memo(() => {
     },
     {
       label: '个人知识库',
-      // icon: <IconFont size={24} type="abook-book" />,
       key: 2,
-      children: [
-        {
-          key: '2-1',
-          label: '首页',
-          icon: <HomeOutlined />,
-        },
-      ],
+      children: [],
     },
-  ];
+  ]);
+
+  /**
+   * @description: 拉取文章列表
+   * @return {*}
+   */
+  async function fetchArticleList() {
+    const { data } = await getArticlesList(Number(bookId));
+
+    setMenu(menu => {
+      const homePageMenu = data.filter(i => i.category === 'index');
+      const articleMenu = data.filter(i => i.category !== 'index');
+      menu[0].key = Number(homePageMenu[0]?.id);
+      menu[1].children = articleMenu.map(i => {
+        return { key: Number(i.id), label: i.title || '' };
+      });
+    });
+  }
+
+  useEffect(() => {
+    fetchArticleList();
+  }, []);
+
   //文章编辑菜单
   const articleEditMenu: MenuItem = [
     {
@@ -50,9 +79,14 @@ const BookDetail = memo(() => {
     },
   ];
 
+  /**
+   * @description: 点击菜单事件
+   * @param {MenuProps['onClick']} e
+   * @return {*}
+   */
   const handleMenuClick: MenuProps['onClick'] = async e => {
     if (e.key === 'doc') {
-      const { code, data, msg } = await createArticle({
+      const { code, data } = await createArticle({
         bookId: Number(bookId),
       });
 
@@ -63,15 +97,17 @@ const BookDetail = memo(() => {
   };
 
   const handleArticleListClick: MenuProps['onClick'] = async e => {
-    console.log(e);
-    navigate(`/bookSpace/${10}`);
+    navigate(`/bookSpace/${bookId}/${e.key}`);
   };
 
   return (
     <>
       <div className="border-b border-gray-200 border border-solid border-l-0 border-t-0 border-r-0">
         {/* 返回个人知识库 */}
-        <div className="flex items-center text-gray-400 cursor-pointer">
+        <div
+          className="flex items-center text-gray-400 cursor-pointer w-fit"
+          onClick={() => navigate('/')}
+        >
           <IconFont size={20} type="abook-shouye" />
           <span className="px-1">
             <RightOutlined style={{ fontSize: '12px' }} />
@@ -103,7 +139,7 @@ const BookDetail = memo(() => {
         <Menu
           className="!border-none"
           inlineIndent={10}
-          items={articleMenus}
+          items={menu}
           onClick={handleArticleListClick}
           mode="inline"
           defaultSelectedKeys={['1']}

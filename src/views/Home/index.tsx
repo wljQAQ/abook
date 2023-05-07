@@ -1,12 +1,12 @@
 /*
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
- * @LastEditors: wlj
- * @LastEditTime: 2023-05-05 08:47:50
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-05-06 16:12:26
  * @Description: 主页面
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 
 import { Menu, Layout, MenuProps } from 'antd';
 import { ReadOutlined } from '@ant-design/icons';
@@ -31,12 +31,7 @@ const defaultMenus: MenuItem = [
     label: '知识库',
     icon: <IconFont size={22} type="abook-book" />,
     key: 'book',
-    children: [
-      {
-        label: 'Vue',
-        key: 'vue',
-      },
-    ],
+    children: [],
   },
 ]; //菜单列表
 
@@ -53,7 +48,7 @@ const Home = () => {
     setMenu([
       {
         label: '知识库',
-        icon: <ReadOutlined />,
+        icon: <IconFont size={22} type="abook-book" />,
         key: 'book',
         children: data.map(i => ({
           label: i.title,

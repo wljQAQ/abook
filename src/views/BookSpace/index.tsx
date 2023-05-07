@@ -1,8 +1,8 @@
 /*
  * @Author: wulongjiang
  * @Date: 2022-11-04 20:42:04
- * @LastEditors: wlj
- * @LastEditTime: 2023-05-05 09:20:16
+ * @LastEditors: wulongjiang
+ * @LastEditTime: 2023-05-06 15:57:10
  * @Description:新建一个知识库页面
  */
 import BookContent from './components/BookContent';
@@ -27,23 +27,26 @@ import { Editor } from '@wangeditor/editor-for-react';
 const { Header, Sider, Content } = Layout;
 
 const BookSpace = () => {
-  const { bookId, ArticleId } = useParams();
+  const { articleId } = useParams();
   const navigate = useNavigate();
   //获取文章对线
   const [articleObj, setArticleObj] = useState<Article | null>(null);
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null);
 
-  async function fetchArticlesHomePage() {
-    if (ArticleId === undefined) return;
-    const { code, msg, data } = await getArticlesDetail(Number(ArticleId));
+  /**
+   * @description: 获取文章详情
+   * @return {*}
+   */
+  async function fetchArticlesDetail() {
+    if (articleId === undefined) return;
+    const { code, msg, data } = await getArticlesDetail(Number(articleId));
     setArticleObj(data);
-    // getArticlesList(Number(id));
   }
 
   useEffect(() => {
-    fetchArticlesHomePage();
-  }, [ArticleId]);
+    fetchArticlesDetail();
+  }, [articleId]);
 
   // 及时销毁 editor ，重要！
   useEffect(() => {

@@ -2,13 +2,13 @@
  * @Author: wlj
  * @Date: 2022-10-20 14:43:15
  * @LastEditors: wulongjiang
- * @LastEditTime: 2023-04-25 20:46:54
+ * @LastEditTime: 2023-05-06 16:02:37
  * @Description:
  */
 import { Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 import routes from '@/router/index';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, Skeleton } from 'antd';
 
 const App = () => {
   return (
@@ -20,7 +20,7 @@ const App = () => {
           },
         }}
       >
-        <Suspense fallback="loading">{useRoutes(routes)}</Suspense>
+        <Suspense fallback={<Skeleton />}>{useRoutes(routes)}</Suspense>
       </ConfigProvider>
     </div>
   );

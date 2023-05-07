@@ -26,5 +26,5 @@ export const getArticlesDetail = function (id: number | string) {
 };
 
 export const updateArticleDetail = function (article: Article) {
-  return request.post('/articles/update', article);
+  return request.post<Article>('/articles/update', article);
 };

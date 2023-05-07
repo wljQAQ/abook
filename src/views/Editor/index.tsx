@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2023-03-17 16:55:52
  * @LastEditors: wulongjiang
- * @LastEditTime: 2023-05-04 20:51:41
+ * @LastEditTime: 2023-05-06 10:23:00
  * @Description:
  */
 import { useEffect } from 'react';
@@ -17,10 +17,13 @@ import { useParams } from 'react-router-dom';
 
 import RichText from './components/RichText';
 
+import { useNavigate } from 'react-router-dom';
+
 import { useImmer } from 'use-immer';
 
 export default function Editor() {
   const { id } = useParams();
+  const navigate = useNavigate();
   //获取文章对线
   const [articleObj, setArticleObj] = useImmer<Article | null>(null);
 
@@ -43,7 +46,6 @@ export default function Editor() {
   };
 
   const handleRichTextBodyChange = (body: string) => {
-    console.log(body);
     setArticleObj(draft => {
       if (draft?.body === undefined) return;
       draft.body = body;
@@ -52,9 +54,12 @@ export default function Editor() {
 
   const onSave = async function () {
     if (!articleObj) return;
-    const { code, msg } = await updateArticleDetail(articleObj);
+    const { code, msg, data } = await updateArticleDetail(articleObj);
     if (code === 0) {
       message.success('保存成功');
+      setTimeout(() => {
+        navigate(`/bookSpace/${data.bookId}/${data.id}`);
+      }, 500);
     } else {
       message.error(msg);
     }
