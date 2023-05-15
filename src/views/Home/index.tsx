@@ -2,7 +2,7 @@
  * @Author: wlj
  * @Date: 2022-10-21 09:46:53
  * @LastEditors: wulongjiang
- * @LastEditTime: 2023-05-06 16:12:26
+ * @LastEditTime: 2023-05-15 23:17:38
  * @Description: 主页面
  */
 
@@ -69,12 +69,12 @@ const Home = () => {
   }, []);
 
   return (
-    <Layout className="w-full h-full">
+    <div className="w-full h-full flex">
       <Sider className="h-full border-r border-gray-200" theme="light">
         <User></User>
         <Menu
+          className="h-full"
           theme="light"
-          // items={menus}
           items={menus}
           mode="inline"
           defaultSelectedKeys={['book']}
@@ -84,7 +84,7 @@ const Home = () => {
       <Content className="px-6 pt-4 bg-white overflow-y-auto">
         <Books books={books}></Books>
       </Content>
-    </Layout>
+    </div>
   );
 };
 
